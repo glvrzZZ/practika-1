@@ -1,6 +1,6 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,118 +9,67 @@ body {
     height: 100vh;
 }
 
-#app {
-    width: 80%;
-    max-width: 800px;
-    background: #fff;
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    text-align: center;
+    width: 80%;
+    max-width: 600px;
 }
 
 h1, h2 {
-    color: #333;
+    text-align: center;
 }
 
-label {
-    font-weight: bold;
+.booking-controls {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-input[type="date"] {
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+#sessions, #seats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-#sessions-container {
-    margin-top: 20px;
-}
-
-#sessions button {
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+.session, .seat {
     margin: 5px;
+    padding: 10px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-#sessions button:disabled {
-    background-color: #ccc;
+.session {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.session.archived {
+    background-color: #6c757d;
     cursor: not-allowed;
 }
 
-#sessions button:hover:not(:disabled) {
-    background-color: #005f73;
-}
-
-#seats-container {
-    margin-top: 20px;
-}
-
-#seats {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.session.selected {
+    background-color: #28a745;
 }
 
 .seat {
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    background-color: #007bff;
+    color: #fff;
+    display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
 }
 
-.seat.available {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.seat.available:hover {
-    background-color: #45a049;
-}
-
-.seat.booked {
-    background-color: #f44336;
-    color: white;
+.seat.reserved {
+    background-color: #dc3545;
     cursor: not-allowed;
 }
 
 .seat.selected {
-    background-color: #ffa500;
-    color: white;
-}
-
-button#confirm-booking {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-}
-
-button#confirm-booking.hidden {
-    display: none;
-}
-
-button#confirm-booking:hover {
-    background-color: #45a049;
-}
-
-.hidden {
-    display: none;
+    background-color: #28a745;
 }
