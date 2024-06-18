@@ -8,3 +8,5 @@
 
 Кроссбраузерная верстка(мин. IE 10).
 Реализовать на JavaScript/JQuery/HTML5/CSS3
+
+https://glvrzzz.github.io/practika-1/
