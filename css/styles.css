@@ -35,7 +35,6 @@ input[type="date"] {
     font-size: 16px;
 }
 
-
 #sessions-container {
     margin-top: 20px;
 }
@@ -95,6 +94,31 @@ input[type="date"] {
     background-color: #f44336;
     color: white;
     cursor: not-allowed;
+}
+
+.seat.selected {
+    background-color: #ffa500;
+    color: white;
+}
+
+button#confirm-booking {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+button#confirm-booking.hidden {
+    display: none;
+}
+
+button#confirm-booking:hover {
+    background-color: #45a049;
 }
 
 .hidden {
