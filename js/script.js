@@ -1,109 +1,114 @@
 $(document).ready(function() {
-    const sessionTimes = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
+    const sessions = ["10:00", "12:00", "14:00", "16:00", "18:00", "20:00"];
+    const maxBookingDays = 7;
     const seatsPerSession = 30;
-    const storageKey = 'cinemaReservations';
-    const maxDays = 7;
+    const today = new Date();
+    
+    let selectedSeats = [];
 
-    function getStoredData() {
-        const data = localStorage.getItem(storageKey);
-        return data ? JSON.parse(data) : {};
+    if (!localStorage.getItem('bookings')) {
+        localStorage.setItem('bookings', JSON.stringify({}));
     }
 
-    function storeData(data) {
-        localStorage.setItem(storageKey, JSON.stringify(data));
+    function loadBookings() {
+        return JSON.parse(localStorage.getItem('bookings'));
     }
 
-    function initializeStorage() {
-        const data = getStoredData();
-        const today = new Date();
-        const currentDate = today.toISOString().split('T')[0];
+    function saveBookings(bookings) {
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+    }
 
-        // Удаляем старые записи старше одной недели
-        Object.keys(data).forEach(date => {
-            if (new Date(date) < new Date(today - maxDays * 24 * 60 * 60 * 1000)) {
-                delete data[date];
-            }
+    function getAvailableDates() {
+        const dates = [];
+        for (let i = -maxBookingDays; i <= maxBookingDays; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+            dates.push(date.toISOString().split('T')[0]);
+        }
+        return dates;
+    }
+
+    function renderSessions(date) {
+        const $sessionsContainer = $('#sessions');
+        $sessionsContainer.empty();
+        sessions.forEach(session => {
+            const sessionTime = new Date(`${date}T${session}`);
+            const isPast = sessionTime < new Date();
+            const $sessionButton = $(`<button>${session}</button>`);
+            $sessionButton.prop('disabled', isPast);
+            $sessionButton.on('click', function() {
+                renderSeats(date, session);
+            });
+            $sessionsContainer.append($sessionButton);
         });
+    }
 
-        // Добавляем новые даты
-        for (let i = -maxDays; i <= maxDays; i++) {
-            const date = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
-            const dateString = date.toISOString().split('T')[0];
-            if (!data[dateString]) {
-                data[dateString] = {};
-                sessionTimes.forEach(time => {
-                    data[dateString][time] = Array(seatsPerSession).fill(false);
+    function renderSeats(date, session) {
+        const bookings = loadBookings();
+        const sessionKey = `${date}_${session}`;
+        const bookedSeats = bookings[sessionKey] || [];
+        selectedSeats = [];
+        const $seatsContainer = $('#seats');
+        $seatsContainer.empty();
+
+        for (let i = 0; i < seatsPerSession; i++) {
+            const isBooked = bookedSeats.includes(i);
+            const $seat = $(`<div class="seat ${isBooked ? 'booked' : 'available'}">${i + 1}</div>`);
+            if (!isBooked) {
+                $seat.on('click', function() {
+                    toggleSeatSelection($seat, i);
                 });
             }
+            $seatsContainer.append($seat);
+        }
+        $('#seats-container').removeClass('hidden');
+        $('#confirm-booking').addClass('hidden');
+    }
+
+    function toggleSeatSelection($seat, seatIndex) {
+        if ($seat.hasClass('selected')) {
+            $seat.removeClass('selected');
+            selectedSeats = selectedSeats.filter(seat => seat !== seatIndex);
+        } else {
+            $seat.addClass('selected');
+            selectedSeats.push(seatIndex);
         }
 
-        storeData(data);
+        $('#confirm-booking').toggleClass('hidden', selectedSeats.length === 0);
     }
 
-    function updateSessions(date) {
-        const data = getStoredData();
-        const today = new Date().toISOString().split('T')[0];
-        const $sessions = $('#sessions');
-        $sessions.empty();
-
-        sessionTimes.forEach(time => {
-            const isArchived = new Date(date) < new Date(today) || (date === today && time < new Date().toTimeString().substr(0, 5));
-            const $session = $('<div>')
-                .addClass('session')
-                .text(time)
-                .toggleClass('archived', isArchived)
-                .click(function() {
-                    if (!isArchived) {
-                        $('.session.selected').removeClass('selected');
-                        $(this).addClass('selected');
-                        updateSeats(date, time);
-                    }
-                });
-            $sessions.append($session);
-        });
-    }
-
-    function updateSeats(date, time) {
-        const data = getStoredData();
-        const seats = data[date][time];
-        const $seats = $('#seats');
-        $seats.empty();
-
-        seats.forEach((reserved, index) => {
-            const $seat = $('<div>')
-                .addClass('seat')
-                .text(index + 1)
-                .toggleClass('reserved', reserved)
-                .click(function() {
-                    if (!reserved) {
-                        $(this).toggleClass('selected');
-                    }
-                });
-            $seats.append($seat);
-        });
-    }
-
-    $('#date-picker').change(function() {
-        const selectedDate = $(this).val();
-        updateSessions(selectedDate);
-    });
-
-    $('#seats').on('click', '.seat', function() {
-        const $selectedSession = $('.session.selected');
-        if ($selectedSession.length) {
-            const selectedDate = $('#date-picker').val();
-            const selectedTime = $selectedSession.text();
-            const seatIndex = $(this).text() - 1;
-            const data = getStoredData();
-
-            if (!$(this).hasClass('reserved')) {
-                $(this).toggleClass('selected');
-                data[selectedDate][selectedTime][seatIndex] = $(this).hasClass('selected');
-                storeData(data);
-            }
+    function bookSelectedSeats(date, session) {
+        const bookings = loadBookings();
+        const sessionKey = `${date}_${session}`;
+        if (!bookings[sessionKey]) {
+            bookings[sessionKey] = [];
         }
+        bookings[sessionKey] = bookings[sessionKey].concat(selectedSeats);
+        saveBookings(bookings);
+        renderSeats(date, session);
+    }
+
+    $('#confirm-booking').on('click', function() {
+        const date = $('#date-picker').val();
+        const session = $('#sessions button:disabled').text();
+        bookSelectedSeats(date, session);
     });
 
-    initializeStorage();
-    $('#date-picker').val(new Date().toISOString().split('T')[0]).trigger('change');
+    function initializeDatePicker() {
+        const availableDates = getAvailableDates();
+        const $datePicker = $('#date-picker');
+        $datePicker.attr('min', availableDates[0]);
+        $datePicker.attr('max', availableDates[availableDates.length - 1]);
+        $datePicker.val(today.toISOString().split('T')[0]);
+
+        $datePicker.on('change', function() {
+            const selectedDate = $(this).val();
+            renderSessions(selectedDate);
+            $('#seats-container').addClass('hidden');
+        });
+
+        renderSessions($datePicker.val());
+    }
+
+    initializeDatePicker();
 });
