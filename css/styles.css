@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#sessions-container, #seats-container {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.seat.available {
+    background-color: #4CAF50;
+}
+
+.seat.booked {
+    background-color: #f44336;
+    cursor: not-allowed;
+}
