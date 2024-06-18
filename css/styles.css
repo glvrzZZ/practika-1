@@ -1,6 +1,7 @@
+/* Основные стили */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,67 +10,120 @@ body {
     height: 100vh;
 }
 
-.container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+#app {
     width: 80%;
-    max-width: 600px;
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
 }
 
 h1, h2 {
-    text-align: center;
+    color: #333;
 }
 
-.booking-controls {
-    margin-bottom: 20px;
-    text-align: center;
+label {
+    font-weight: bold;
 }
 
-#sessions, #seats {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.session, .seat {
-    margin: 5px;
+input[type="date"] {
     padding: 10px;
-    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Стили для сеансов */
+#sessions-container {
+    margin-top: 20px;
+}
+
+#sessions button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
-.session {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.session.archived {
-    background-color: #6c757d;
+#sessions button:disabled {
+    background-color: #ccc;
     cursor: not-allowed;
 }
 
-.session.selected {
-    background-color: #28a745;
+#sessions button:hover:not(:disabled) {
+    background-color: #005f73;
 }
 
-.seat {
-    width: 30px;
-    height: 30px;
-    background-color: #007bff;
-    color: #fff;
+/* Стили для мест */
+#seats-container {
+    margin-top: 20px;
+}
+
+#seats {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
-.seat.reserved {
-    background-color: #dc3545;
+.seat {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.seat.available {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.seat.available:hover {
+    background-color: #45a049;
+}
+
+.seat.booked {
+    background-color: #f44336;
+    color: white;
     cursor: not-allowed;
 }
 
 .seat.selected {
-    background-color: #28a745;
+    background-color: #ffa500;
+    color: white;
+}
+
+button#confirm-booking {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+button#confirm-booking.hidden {
+    display: none;
+}
+
+button#confirm-booking:hover {
+    background-color: #45a049;
+}
+
+.hidden {
+    display: none;
 }
