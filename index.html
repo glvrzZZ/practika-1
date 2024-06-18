@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Movie Ticket Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотеатр Бронирование Билетов</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
+    <div class="container">
         <h1>Бронирование билетов в кинотеатр</h1>
-        <div>
+        <div class="booking-controls">
             <label for="date-picker">Выберите дату:</label>
             <input type="date" id="date-picker">
         </div>
         <div id="sessions-container">
             <h2>Сеансы</h2>
-            <div id="sessions"></div>
+            <div id="sessions">
+        
+            </div>
         </div>
-        <div id="seats-container" class="hidden">
+        <div id="seats-container">
             <h2>Места</h2>
-            <div id="seats"></div>
-            <button id="confirm-booking" class="hidden">Забронировать</button>
+            <div id="seats">
+            
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
