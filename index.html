@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Ticket Booking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Бронирование билетов в кинотеатр</h1>
+        <div>
+            <label for="date-picker">Выберите дату:</label>
+            <input type="date" id="date-picker">
+        </div>
+        <div id="sessions-container">
+            <h2>Сеансы</h2>
+            <div id="sessions"></div>
+        </div>
+        <div id="seats-container" class="hidden">
+            <h2>Места</h2>
+            <div id="seats"></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
