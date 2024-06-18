@@ -1,36 +1,102 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #app {
-    width: 60%;
-    margin: 0 auto;
+    width: 80%;
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     text-align: center;
 }
 
-#sessions-container, #seats-container {
+h1, h2 {
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="date"] {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+#sessions-container {
     margin-top: 20px;
 }
 
-.hidden {
-    display: none;
+#sessions button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#sessions button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#sessions button:hover:not(:disabled) {
+    background-color: #005f73;
+}
+
+#seats-container {
+    margin-top: 20px;
+}
+
+#seats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .seat {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin: 5px;
-    display: inline-block;
-    text-align: center;
-    line-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .seat.available {
     background-color: #4CAF50;
+    color: white;
+}
+
+.seat.available:hover {
+    background-color: #45a049;
 }
 
 .seat.booked {
     background-color: #f44336;
+    color: white;
     cursor: not-allowed;
+}
+
+.hidden {
+    display: none;
 }
